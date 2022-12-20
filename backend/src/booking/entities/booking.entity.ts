@@ -1,10 +1,10 @@
-import { DateGenerator } from '../../date-generator';
-import { CampingSite } from 'src/camping_site/entities/camping_site.entity';
-import { User } from 'src/user/entities/user.entity';
-import { PrimaryGeneratedColumn, Column, Entity, ManyToOne , OneToMany, OneToOne} from 'typeorm';
+//import { DateGenerator } from 'src/date-generator';
+import { CampingSite } from '../../camping_site/entities/camping_site.entity';
+import { User } from '../../user/entities/user.entity';
+import { PrimaryGeneratedColumn, Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('booking')
-export class Booking extends DateGenerator {
+export class Booking  {
     
   @PrimaryGeneratedColumn()
   id: number;
@@ -23,7 +23,4 @@ export class Booking extends DateGenerator {
 
   @ManyToOne( () => CampingSite, (campingSite: CampingSite) => campingSite.bookings )
   campingSite : CampingSite ;
-
-  //@OneToOne( () => CampingSite, ( campingSite: CampingSite) => campingSite.bookings )
-  //campingSite: CampingSite ;
 }

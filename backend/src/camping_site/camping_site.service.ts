@@ -1,26 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCampingSiteDto } from './dto/create-camping_site.dto';
-import { UpdateCampingSiteDto } from './dto/update-camping_site.dto';
+import { CrudService } from '../common/crud.service';
+import { Repository } from 'typeorm';
+import { CampingSite } from './entities/camping_site.entity';
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable()
-export class CampingSiteService {
-  create(createCampingSiteDto: CreateCampingSiteDto) {
-    return 'This action adds a new campingSite';
-  }
-
-  findAll() {
-    return `This action returns all campingSite`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} campingSite`;
-  }
-
-  update(id: number, updateCampingSiteDto: UpdateCampingSiteDto) {
-    return `This action updates a #${id} campingSite`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} campingSite`;
+export class CampingSiteService extends CrudService<CampingSite> {
+  constructor(
+    @InjectRepository(CampingSite)
+    private campingSiteRepository: Repository<CampingSite>
+  ){
+    super(campingSiteRepository)
   }
 }
