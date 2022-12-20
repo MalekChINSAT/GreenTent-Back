@@ -22,7 +22,7 @@ dotenv.config() ;
     autoLoadEntities:true,
     logging:true,
     synchronize: true,
-    entities: [] ,
+    entities: ['dist/**/*.entity{.ts,.js}'] ,
   }),
   ConfigModule.forRoot(
     {isGlobal: true} 
