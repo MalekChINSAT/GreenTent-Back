@@ -1,33 +1,45 @@
-import { PrimaryGeneratedColumn, Column,Entity,  OneToMany } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
+import { Url } from 'url';
 import { Booking } from '../../booking/entities/booking.entity';
 
 @Entity('campingSite')
 export class CampingSite {
-    
-@PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
-@Column()
-locationName : string ;
-@Column()
-description: string ;
+  @Column()
+  locationName: string;
 
-@Column()
-activities: string ;
+  @Column()
+  description: string;
 
-@Column()
-location : string ;
+  @Column()
+  price: string;
 
-@Column()
-linkToMaps: string ;
+  @Column()
+  capacity: number;
 
-@OneToMany( () => Booking, (bookings: Booking) => bookings.campingSite,  {eager:true})
-bookings: Booking[] ;
+  @Column('simple-array')
+  activities: string[];
 
+  @Column()
+  address: string;
 
+  @Column('simple-array')
+  images: string[];
 
+  //@Column()
+  //linkToMaps: string;
 
-
-
-
+  @OneToMany(() => Booking, (bookings: Booking) => bookings.campingSite, {
+    eager: true,
+  })
+  bookings: Booking[];
 }

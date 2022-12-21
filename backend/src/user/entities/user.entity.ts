@@ -1,18 +1,17 @@
 //import { DateGenerator } from 'src/date-generator';
-import {Booking} from '../../booking/entities/booking.entity'
+import { Booking } from '../../booking/entities/booking.entity';
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('user')
-export class User  {
-    
+export class User {
   @PrimaryGeneratedColumn()
   id: number;
-  
+
   @Column()
   username: string;
 
   @Column()
-  birthdate: Date ;
+  birthdate: Date;
 
   @Column()
   email: string;
@@ -20,7 +19,9 @@ export class User  {
   @Column()
   password: string;
 
-  @OneToMany(() => Booking, ( booking: Booking) => booking.user)
-  bookings: Booking[]
+  @Column()
+  avatar: string;
 
+  @OneToMany(() => Booking, (booking: Booking) => booking.user)
+  bookings: Booking[];
 }
