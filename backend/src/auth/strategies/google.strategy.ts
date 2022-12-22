@@ -1,0 +1,36 @@
+import { PassportStrategy } from '@nestjs/passport';
+import { Strategy, VerifyCallback } from 'passport-google-oauth20';
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
+    constructor() {
+        super({
+            clientID: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            //the endpoint in our app that google will redirect to after authenticating a user
+            callbackURL: 'http://localhost:3000/auth/google-redirect',
+            //specific user information we want to get back from Google.
+            scope: ['email', 'profile'],
+        });
+    }
+
+    //executes after Google returns the requested user information
+    async validate(
+        accessToken: string,
+        refreshToken: string,
+        profile: any,
+        done: VerifyCallback,
+    ): Promise<any> {
+        const { name, emails, photos } = profile;
+        const user = {
+            email: emails[0].value,
+            firstName: name.givenName,
+            lastName: name.familyName,
+            picture: photos[0].value,
+            accessToken,
+            refreshToken,
+        };
+        done(null, user);
+    }
+}
