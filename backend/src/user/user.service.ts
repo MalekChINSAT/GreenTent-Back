@@ -12,4 +12,12 @@ export class UserService extends CrudService<User> {
   ){
     super(userRepository)
   }
+
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    return await this.userRepository.findOne({
+      where: {
+        email: email
+      }
+    });
+  }
 }

@@ -6,7 +6,12 @@ import { CampingSiteModule } from './camping_site/camping_site.module';
 import { BookingModule } from './booking/booking.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 import * as dotenv from 'dotenv';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
+import {UserController} from "./user/user.controller";
+import {AuthController} from "./auth/auth.controller";
 
 dotenv.config();
 
@@ -24,12 +29,18 @@ dotenv.config();
       database: process.env.DB_NAME,
       autoLoadEntities: true,
       logging: true,
-      synchronize: true,
+      synchronize: false,
       entities: ['dist/**/*.entity{.ts,.js}'],
     }),
     ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, AuthController, UserController],
+  providers: [AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    }
+  ]
 })
 export class AppModule {}

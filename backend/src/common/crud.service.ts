@@ -16,8 +16,8 @@ export class CrudService <Entity extends HasIdInterface> {
   }
 
   async findOne(id): Promise<Entity> {
-    const Entity = await this.repository.findOne({where: {id}});
-    if (! Entity) {
+    const Entity = await this.repository.findOne({ where: { id }});
+    if (!Entity) {
       throw new NotFoundException();
     }
     return Entity;
