@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { CrudService } from 'src/common/crud.service';
+import { Review } from './entities/review.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { CreateReviewDto } from './dto/create-review.dto';
-import { UpdateReviewDto } from './dto/update-review.dto';
+
 
 @Injectable()
-export class ReviewService {
-  create(createReviewDto: CreateReviewDto) {
-    return 'This action adds a new review';
-  }
+export class ReviewService extends CrudService<Review> {
 
-  findAll() {
-    return `This action returns all review`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} review`;
-  }
-
-  update(id: number, updateReviewDto: UpdateReviewDto) {
-    return `This action updates a #${id} review`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} review`;
-  }
+constructor(
+@InjectRepository(Review)
+private reviewRepository: Repository<Review>,
+) {
+super(reviewRepository);
 }
+async addReview(createReviewDto: CreateReviewDto, user : any ): Promise<Review>
+{
+const { vote , comment } = createReviewDto;
+const review = new Review();
+review.comment= comment ;
+review.vote= vote ;
+review.user= user.id;
+
+
+return await this.reviewRepository.save(review);
+}
+}
+
+
+

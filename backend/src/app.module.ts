@@ -1,3 +1,5 @@
+import { ReviewController } from './review/review.controller';
+import { ReviewModule } from './review/review.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -20,6 +22,7 @@ dotenv.config();
     UserModule,
     CampingSiteModule,
     BookingModule,
+    ReviewModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
@@ -35,7 +38,7 @@ dotenv.config();
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
   ],
-  controllers: [AppController, AuthController, UserController],
+  controllers: [AppController, AuthController, UserController, ReviewController],
   providers: [AppService,
     {
       provide: APP_GUARD,
