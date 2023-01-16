@@ -2,14 +2,15 @@ import {Controller,Get,Post,Body,Patch,Param,Delete,} from "@nestjs/common";
 import { BookingService } from "./booking.service";
 import { CreateBookingDto } from "./dto/create-booking.dto";
 import { UpdateBookingDto } from "./dto/update-booking.dto";
+import { User } from '../decorators/user.decorator';
 
 @Controller("booking")
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 
   @Post()
-  create(@Body() createBookingDto: CreateBookingDto) {
-    return this.bookingService.create(createBookingDto);
+  create(@Body() createBookingDto: CreateBookingDto,  @User() user: any) {
+    return this.bookingService.addBooking(createBookingDto,user);
   }
 
   @Get()

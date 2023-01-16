@@ -5,13 +5,13 @@ import { GoogleOAuthGuard } from './guards/google-oauth.guard';
 import {Public} from "../metadata";
 import { User} from "../user/entities/user.entity";
 import { CreateUserDto } from "../user/dto/create-user.dto"
+import { SigninUserDTO } from 'src/user/dto/signin-user.dto';
 
 @Controller('auth')
 export class AuthController{
     constructor(private authService: AuthService) {}
 
     @Post('signup')
-    @Public()
     @Public()
     async signup(@Body() createUserDto: CreateUserDto): Promise<User> {
        return this.authService.signup(createUserDto);
@@ -20,8 +20,8 @@ export class AuthController{
     @UseGuards(LocalAuthGuard)
     @Public()
     @Post('login')
-    async login(@Request() req) {
-        return this.authService.login(req.user);
+    async login(@Body() signInUserDto: SigninUserDTO) {
+        return this.authService.login(signInUserDto);
     }
 
     @Get('google')

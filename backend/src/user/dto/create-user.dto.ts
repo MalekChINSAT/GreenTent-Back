@@ -1,4 +1,4 @@
-import {IS_PASSPORT_NUMBER, IsEmail, IsNotEmpty, IsString, MaxLength} from 'class-validator';
+import {IsEmail, IsNotEmpty, IsString, MaxLength} from 'class-validator';
 import { isEmpty, IsMax } from '../user.handler';
 
 export class CreateUserDto {
