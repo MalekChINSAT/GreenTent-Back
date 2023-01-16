@@ -1,10 +1,10 @@
+import { Review } from 'src/review/entities/review.entity';
 import { User } from 'src/user/entities/user.entity';
 import {
   PrimaryGeneratedColumn,
   Column,
   Entity,
   OneToMany,
-  ManyToOne,
 } from 'typeorm';
 import { Url } from 'url';
 import { Booking } from '../../booking/entities/booking.entity';
@@ -42,4 +42,7 @@ export class CampingSite {
     eager: true,
   })
   bookings: Booking[];
+
+  @OneToMany(() => Review, (reviews: Review) => reviews.campingSite, {eager : true ,})
+  reviews: Review[];
 }
