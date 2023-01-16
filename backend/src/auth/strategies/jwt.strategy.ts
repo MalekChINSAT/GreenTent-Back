@@ -1,13 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { AuthService } from 'src/auth/auth.service';
+import { UserService } from 'src/user/user.service';
 import { jwtConstants } from '../constants';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(
-        private readonly authService: AuthService
+        private readonly authService: AuthService,
+        private readonly userService: UserService
     ) {
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -19,11 +21,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: any) {
-        //the payload of the jsonwebtoken
-        // the decoded JSON as a parameter
+        // the decoded JSON
+        
+        const user = await this.userService.findOneByEmail(payload.email);
+        if (!user) {
+            throw new UnauthorizedException();
+        }
+
         //this user will be injected in request object
-        //const user = this.authService.validateUser(payload.email);
-        const user ={ id: payload.email, sub: payload.sub}
-        return user;
+        return {id: user.id, email: payload.email };
     }
 }
