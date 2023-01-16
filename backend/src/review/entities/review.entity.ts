@@ -5,7 +5,7 @@ import { VoteEnum } from '../dto/voteEnum';
 import { DateGenerator } from 'src/date-generator';
 
 @Entity('review')
-export class Review extends  DateGenerator{
+export class Review extends DateGenerator{
 
     @PrimaryGeneratedColumn()
     id : number;
