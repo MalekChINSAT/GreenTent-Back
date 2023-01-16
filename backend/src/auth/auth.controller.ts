@@ -12,7 +12,6 @@ export class AuthController{
 
     @Post('signup')
     @Public()
-    @Public()
     async signup(@Body() createUserDto: CreateUserDto): Promise<User> {
        return this.authService.signup(createUserDto);
     }

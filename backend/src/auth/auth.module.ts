@@ -12,7 +12,7 @@ import {ConfigModule} from "@nestjs/config";
 @Module({
   imports: [
       UserModule,
-      PassportModule,
+      PassportModule.register({defaulyStartegy: 'jwt'}),
       ConfigModule.forRoot(),
       JwtModule.register({
         secret: jwtConstants.secret,
