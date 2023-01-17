@@ -1,3 +1,5 @@
+import { ReviewController } from './review/review.controller';
+import { ReviewModule } from './review/review.module';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -20,12 +22,13 @@ dotenv.config();
   imports: [
     UserModule,
     CampingSiteModule,
+    ReviewModule,
     BookingModule,
     TypeOrmModule.forRoot(typeOrmConfig),
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
   ],
-  controllers: [AppController, AuthController, UserController],
+  controllers: [AppController, AuthController, UserController, ReviewController],
   providers: [AppService,
     {
       provide: APP_GUARD,

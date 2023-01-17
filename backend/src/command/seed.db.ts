@@ -53,7 +53,7 @@ async function bootstrap() {
     const createRandomBooking = () => {
         const booking = new Booking();
 
-        booking.cancelDate= randPastDate()
+        //booking.cancelDate= randPastDate()
         booking.checkintDate= randRecentDate()
         booking.checkoutDate= randFutureDate()
         booking.guests= faker.datatype.number({min: 1, max: 10});

@@ -5,7 +5,7 @@ import { GoogleOAuthGuard } from './guards/google-oauth.guard';
 import {Public} from "../metadata";
 import { User} from "../user/entities/user.entity";
 import { CreateUserDto } from "../user/dto/create-user.dto"
-import { SigninUserDTO } from 'src/user/dto/signin-user.dto';
+import { SigninUserDTO } from '../user/dto/signin-user.dto';
 
 @Controller('auth')
 export class AuthController{

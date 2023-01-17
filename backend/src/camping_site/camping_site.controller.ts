@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
-import { Public } from 'src/metadata';
+import { Public } from '../metadata';
 import { CampingSiteService } from './camping_site.service';
 import { CreateCampingSiteDto } from './dto/create-camping_site.dto';
 import { UpdateCampingSiteDto } from './dto/update-camping_site.dto';
@@ -44,18 +44,21 @@ export class CampingSiteController {
     return await this.campingSiteService.getCampsites(skip, limit);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
+  @Get(":id")
+  findOne(@Param("id") id: string) {
     return this.campingSiteService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCampingSiteDto: UpdateCampingSiteDto) {
+  @Patch(":id")
+  update(
+    @Param("id") id: string,
+    @Body() updateCampingSiteDto: UpdateCampingSiteDto
+  ) {
     return this.campingSiteService.update(+id, updateCampingSiteDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
+  @Delete(":id")
+  remove(@Param("id") id: string) {
     return this.campingSiteService.remove(+id);
   }
 

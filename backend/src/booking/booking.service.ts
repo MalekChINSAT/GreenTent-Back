@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from "@nestjs/typeorm";
 import { Booking } from './entities/booking.entity';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { CampingSiteService } from 'src/camping_site/camping_site.service';
+import { CampingSiteService } from '../camping_site/camping_site.service';
 
 @Injectable()
 export class BookingService extends CrudService<Booking> {

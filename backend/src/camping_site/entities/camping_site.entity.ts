@@ -5,9 +5,11 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Booking } from '../../booking/entities/booking.entity';
+import { Review } from "../../review/entities/review.entity";
 
 @Entity('campingSite')
-export class CampingSite{
+export class CampingSite {
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,13 +25,13 @@ export class CampingSite{
   @Column()
   capacity: number;
 
-  @Column('simple-array')
+  @Column("simple-array")
   activities: string[];
 
   @Column()
   address: string;
 
-  @Column('simple-array')
+  @Column("simple-array")
   images: string[];
 
   //@Column()
@@ -37,4 +39,9 @@ export class CampingSite{
 
   @OneToMany(() => Booking, (booking: Booking) => booking.campingSite)
   bookings: Booking[];
+
+  @OneToMany(() => Review, (reviews: Review) => reviews.campingSite, {
+    eager: true,
+  })
+  reviews: Review[];
 }
