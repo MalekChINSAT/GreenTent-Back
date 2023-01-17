@@ -12,28 +12,37 @@ export class BookingService extends CrudService<Booking> {
     @InjectRepository(Booking)
     private bookingRepository: Repository<Booking>,
     private campingSiteService: CampingSiteService
-  ){
+  ) {
     super(bookingRepository)
   }
 
-  async addBooking(createBookingDto: CreateBookingDto, user: any): Promise<Booking>{
+  async addBooking(createBookingDto: CreateBookingDto, user: any): Promise<Booking> {
 
     const { guests, checkintDate, checkoutDate, campingSite } = createBookingDto;
 
     const campsite = await this.campingSiteService.findOne(campingSite);
 
-    if (!campingSite){
+    if (!campingSite) {
       throw new NotFoundException()
     }
-    
+
     const booking = new Booking();
     booking.checkoutDate = checkoutDate;
     booking.checkintDate = checkintDate;
     booking.guests = guests;
-    booking.user=user.id;
+    booking.user = user.id;
     booking.campingSite = campsite;
 
     return await this.bookingRepository.save(booking);
+  }
+
+  async getBookingsById(userId: number): Promise<Booking[]> {
+    console.log("userId", userId)
+    return await this.bookingRepository
+      .createQueryBuilder("booking")
+      .leftJoinAndSelect("booking.campingSite", "campingSite")
+      .where("booking.userId = :userId", { userId })
+      .getMany();
   }
 
 }
