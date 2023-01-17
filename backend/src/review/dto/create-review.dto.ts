@@ -10,4 +10,6 @@ export class CreateReviewDto {
     @Max(5)
     vote: number;
 
+    @IsNumber()
+    campingSite: number;
 }
