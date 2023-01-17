@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { CrudService } from '../common/crud.service';
 import { Repository } from 'typeorm';
 import { InjectRepository } from "@nestjs/typeorm";
@@ -19,12 +19,21 @@ export class BookingService extends CrudService<Booking> {
   async addBooking(createBookingDto: CreateBookingDto, user: any): Promise<Booking>{
 
     const { guests, checkintDate, checkoutDate, campingSite } = createBookingDto;
-        const booking = new Booking();
-        booking.checkoutDate = checkoutDate;
-        booking.checkintDate = checkintDate;
-        booking.guests = guests;
-        booking.user=user.id;
-        booking.campingSite = await this.campingSiteService.findOne(campingSite);
-        return await this.bookingRepository.save(booking);
+
+    const campsite = await this.campingSiteService.findOne(campingSite);
+
+    if (!campingSite){
+      throw new NotFoundException()
+    }
+    
+    const booking = new Booking();
+    booking.checkoutDate = checkoutDate;
+    booking.checkintDate = checkintDate;
+    booking.guests = guests;
+    booking.user=user.id;
+    booking.campingSite = campsite;
+
+    return await this.bookingRepository.save(booking);
   }
+
 }

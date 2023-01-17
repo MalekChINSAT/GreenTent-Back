@@ -12,6 +12,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard'
 import {UserController} from "./user/user.controller";
 import {AuthController} from "./auth/auth.controller";
+import { typeOrmConfig } from './ormconfig';
 
 dotenv.config();
 
@@ -20,18 +21,7 @@ dotenv.config();
     UserModule,
     CampingSiteModule,
     BookingModule,
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      autoLoadEntities: true,
-      logging: true,
-      synchronize: false,
-      entities: ['dist/**/*.entity{.ts,.js}'],
-    }),
+    TypeOrmModule.forRoot(typeOrmConfig),
     ConfigModule.forRoot({ isGlobal: true }),
     AuthModule,
   ],

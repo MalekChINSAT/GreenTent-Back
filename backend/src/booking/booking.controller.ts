@@ -4,7 +4,7 @@ import { CreateBookingDto } from "./dto/create-booking.dto";
 import { UpdateBookingDto } from "./dto/update-booking.dto";
 import { User } from '../decorators/user.decorator';
 
-@Controller("booking")
+@Controller("bookings")
 export class BookingController {
   constructor(private readonly bookingService: BookingService) {}
 

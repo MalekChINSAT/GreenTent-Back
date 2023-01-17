@@ -25,7 +25,7 @@ export class CrudService <Entity extends HasIdInterface> {
 
   async update(id, updateDto) {
     const Entity = await this.repository.preload({id, ...updateDto});
-    if (! Entity) {
+    if (!Entity) {
       throw new NotFoundException();
     }
     return this.repository.save(Entity);

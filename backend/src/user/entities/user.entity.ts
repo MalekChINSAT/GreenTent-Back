@@ -1,9 +1,8 @@
-//import { DateGenerator } from 'src/date-generator';
 import { Booking } from '../../booking/entities/booking.entity';
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 @Entity('user')
-export class User {
+export class User{
   @PrimaryGeneratedColumn()
   id: number;
 

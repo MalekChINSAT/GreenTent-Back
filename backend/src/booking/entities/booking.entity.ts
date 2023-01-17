@@ -1,10 +1,10 @@
-//import { DateGenerator } from 'src/date-generator';
+import { DateGenerator } from '../../date-generator';
 import { CampingSite } from '../../camping_site/entities/camping_site.entity';
 import { User } from '../../user/entities/user.entity';
 import { PrimaryGeneratedColumn, Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('booking')
-export class Booking {
+export class Booking extends DateGenerator {
   @PrimaryGeneratedColumn()
   id: number;
 
