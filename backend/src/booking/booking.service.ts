@@ -37,7 +37,7 @@ export class BookingService extends CrudService<Booking> {
   }
 
   async getBookingsById(userId: number): Promise<Booking[]> {
-    console.log("userId", userId)
+   
     return await this.bookingRepository
       .createQueryBuilder("booking")
       .leftJoinAndSelect("booking.campingSite", "campingSite")

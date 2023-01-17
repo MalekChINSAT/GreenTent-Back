@@ -12,11 +12,6 @@ import { ApiTags } from '@nestjs/swagger';
 export class CampingSiteController {
   constructor(private readonly campingSiteService: CampingSiteService) { }
 
-  @Post()
-  create(@Body() createCampingSiteDto: CreateCampingSiteDto) {
-    return this.campingSiteService.create(createCampingSiteDto);
-  }
-
   @Get('popular')
   @Public()
   async getMostPopularCampsites(): Promise<CampingSite[]> {
@@ -40,6 +35,7 @@ export class CampingSiteController {
   }
 
   @Get('best')
+  @Public()
   async getFiveBestCampsites(): Promise<CampingSite[]> {
     return await this.campingSiteService.getFiveBestCampsites();
   }
@@ -60,6 +56,7 @@ export class CampingSiteController {
   }
 
   @Get(":id")
+  @Public()
   findOne(@Param("id") id: string) {
     return this.campingSiteService.findOne(+id);
   }
@@ -75,6 +72,11 @@ export class CampingSiteController {
   @Delete(":id")
   remove(@Param("id") id: string) {
     return this.campingSiteService.remove(+id);
+  }
+
+  @Post()
+  create(@Body() createCampingSiteDto: CreateCampingSiteDto) {
+    return this.campingSiteService.create(createCampingSiteDto);
   }
 
 }

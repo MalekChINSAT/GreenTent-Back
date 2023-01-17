@@ -10,12 +10,12 @@ export class CreateBookingDto {
 
   @IsDate()
   @Type(() => Date)
-  @ApiProperty({ type:'Date'})
+  @ApiProperty()
   readonly checkintDate: Date;
 
   @IsDate()
   @Type(() => Date)
-  @ApiProperty({ type:'Date'})
+  @ApiProperty()
   readonly checkoutDate: Date;
 
   @IsNumber()

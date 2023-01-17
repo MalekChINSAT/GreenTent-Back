@@ -21,11 +21,6 @@ export class UserController {
       return await this.userService.resetPassword(resetPasswordDto);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
-  }
-
   @Get('me')
   getProfile(@User() user) {
     return this.userService.findOne(user.id);
@@ -34,11 +29,6 @@ export class UserController {
   @Patch('profile')
   update(@Body() updateUserDto: UpdateUserDto, @User() user ) {
     return this.userService.update(user.id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
   }
 
 }

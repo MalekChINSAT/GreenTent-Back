@@ -14,10 +14,11 @@ export class AuthService {
 
     async validateUser(email: string, pass: string): Promise<any> {
         const user = await this.usersService.findOneByEmail(email);
-
+       
         if (!user) throw new NotFoundException("email or password wrong");
 
         const passwordValid = await bcrypt.compare(pass, user.password);
+        
         if (!user) {
             throw new NotAcceptableException('could not find the user');
         };
