@@ -5,7 +5,9 @@ import { CampingSiteService } from './camping_site.service';
 import { CreateCampingSiteDto } from './dto/create-camping_site.dto';
 import { UpdateCampingSiteDto } from './dto/update-camping_site.dto';
 import { CampingSite } from './entities/camping_site.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Campsites')
 @Controller('campsites')
 export class CampingSiteController {
   constructor(private readonly campingSiteService: CampingSiteService) { }

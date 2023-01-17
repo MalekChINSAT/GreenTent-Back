@@ -6,7 +6,9 @@ import {Public} from "../metadata";
 import { User} from "../user/entities/user.entity";
 import { CreateUserDto } from "../user/dto/create-user.dto"
 import { SigninUserDTO } from '../user/dto/signin-user.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Authentication')
 @Controller('auth')
 export class AuthController{
     constructor(private authService: AuthService) {}
