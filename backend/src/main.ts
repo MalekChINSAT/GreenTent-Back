@@ -4,12 +4,15 @@ import {ValidationPipe} from "@nestjs/common";
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
+  app.enableCors({
+    origin: "http://localhost:3001"
+  });
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true, forbidNonWhitelisted: true}))
 
   const config = new DocumentBuilder()
     .setTitle('GreenTent')
-    .setDescription('The GreenTent API')
+    .setDescription('GreenTent API Functionnalities')
     .setVersion('1.0')
     .addTag('Account', "Endpoints for managing a user account")
     .addTag('Bookings', 'Endpoints for managing bookings')
