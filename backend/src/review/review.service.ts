@@ -1,4 +1,4 @@
-import { forwardRef, Injectable, Inject} from "@nestjs/common";
+import { forwardRef, Injectable, Inject } from "@nestjs/common";
 import { CrudService } from "../common/crud.service";
 import { Review } from "./entities/review.entity";
 import { Repository } from "typeorm";
@@ -12,7 +12,7 @@ export class ReviewService extends CrudService<Review> {
   constructor(
     @InjectRepository(Review)
     private reviewRepository: Repository<Review>,
-    /*@Inject(forwardRef(() => CampingSiteService))*/
+    @Inject(forwardRef(() => CampingSiteService))
     private campingSiteService: CampingSiteService
   ) {
     super(reviewRepository);
@@ -31,7 +31,11 @@ export class ReviewService extends CrudService<Review> {
     return await this.reviewRepository.save(review);
   }
 
-  /*async findReviewsByCampingSite(campingSiteId): Promise<Review[]> {
-    return await this.reviewRepository.find({where: {campingSite: campingSiteId }});
-}*/
+  async findReviewsByCampingSite(campsiteId): Promise<Review[]> {
+    return await this.reviewRepository.find(
+      {
+        where: { campingSite: campsiteId }
+      }
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Review } from '../review/entities/review.entity';
 import { Public } from '../metadata';
 import { CampingSiteService } from './camping_site.service';
 import { CreateCampingSiteDto } from './dto/create-camping_site.dto';
@@ -27,12 +28,24 @@ export class CampingSiteController {
   }
 
   @Get('available')
+  @Public()
   async getAvailableCampsites(
     @Query('start_date') startDate: string,
     @Query('end_date') endDate: string,
     @Query('guests') guests: number,
   ): Promise<CampingSite[]> {
     return await this.campingSiteService.getAvailableCampsites(startDate, endDate, guests);
+  }
+
+  @Get('best')
+  async getFiveBestCampsites(): Promise<CampingSite[]> {
+    return await this.campingSiteService.getFiveBestCampsites();
+  }
+
+  @Get('/:id/reviews')
+  @Public()
+  async getReviewsById(@Param('id') id: number): Promise<Review[]> {
+    return await this.campingSiteService.getReviewsById(id);
   }
 
   @Get()
