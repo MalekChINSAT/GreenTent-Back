@@ -1,16 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards,Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards,Request, Put } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from 'src/decorators/user.decorator';
+import { ResetPasswordDto } from './dto/reset.password.dto';
 
-@Controller('users')
+@Controller('account')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get('mybookings')
   getCurrentUserBookings(@User() user) {
     return this.userService.getBookingsById(user.id);
+  }
+
+  @Put('reset-password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+      return await this.userService.resetPassword(resetPasswordDto);
   }
 
   @Get()
