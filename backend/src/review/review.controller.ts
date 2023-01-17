@@ -15,7 +15,7 @@ import { User } from "src/decorators/user.decorator";
 @Controller("reviews")
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
-  
+
   @Post("add")
   create(@Body() createReviewDto: CreateReviewDto, @User() user: any) {
     return this.reviewService.addReview(createReviewDto, user);
