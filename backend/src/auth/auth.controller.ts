@@ -15,8 +15,8 @@ export class AuthController {
 
     @Public()
     @Post('signup')
-    async signup(@Body() createUserDto: CreateUserDto): Promise<User> {
-        return this.authService.signup(createUserDto);
+    async signup(@Body() createUserDto: CreateUserDto) {
+        this.authService.signup(createUserDto);
     }
 
     @Public()
@@ -26,7 +26,7 @@ export class AuthController {
         return this.authService.login(signInUserDto);
     }
 
-    
+
     @Public()
     @UseGuards(GoogleOAuthGuard)
     @Get('google')

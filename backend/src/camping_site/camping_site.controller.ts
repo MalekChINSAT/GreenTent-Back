@@ -75,6 +75,7 @@ export class CampingSiteController {
   }
 
   @Post()
+  @Public()
   create(@Body() createCampingSiteDto: CreateCampingSiteDto) {
     return this.campingSiteService.create(createCampingSiteDto);
   }

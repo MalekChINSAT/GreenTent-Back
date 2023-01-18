@@ -1,11 +1,12 @@
 import { forwardRef, Injectable, Inject } from '@nestjs/common';
 import { CrudService } from '../common/crud.service';
-import { Like, Repository } from 'typeorm';
+import { Brackets, Like, Repository } from 'typeorm';
 import { CampingSite } from './entities/camping_site.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCampingSiteDto } from './dto/create-camping_site.dto';
 import { Review } from '../review/entities/review.entity';
 import { ReviewService } from '../review/review.service';
+import { Booking } from 'src/booking/entities/booking.entity';
 
 @Injectable()
 export class CampingSiteService extends CrudService<CampingSite> {
@@ -22,7 +23,7 @@ export class CampingSiteService extends CrudService<CampingSite> {
   async getFiveMostPopularCampsites(): Promise<CampingSite[]> {
     const popularCampsites = await this.campingSiteRepository
       .createQueryBuilder('campingSite')
-      .select(["campingSite.id"])
+      .select(["campingSite.id", "campingSite.locationName", "campingSite.images"])
       .addSelect("COUNT(booking.id)", "bookings_count")
       .leftJoin('campingSite.bookings', 'booking')
       .groupBy('campingSite.id')
@@ -34,14 +35,31 @@ export class CampingSiteService extends CrudService<CampingSite> {
   }
 
   async getAvailableCampsites(startDate: string, endDate: string, guests: number): Promise<CampingSite[]> {
-    const availableCampsites = await this.campingSiteRepository
-      .createQueryBuilder("campingSite")
+    const q = this.campingSiteRepository.createQueryBuilder("campingSite")
+    const availableCampsites = await q
       .select(["campingSite.id", "campingSite.capacity"])
-      .leftJoinAndSelect("campingSite.bookings", "booking")
-      .where("booking.checkintDate NOT BETWEEN :startDate AND :endDate", { startDate, endDate })
-      .andWhere("booking.checkoutDate NOT BETWEEN :startDate AND :endDate", { startDate, endDate })
+      .where(new Brackets(qb => {
+        qb
+          .where(q => {
+            const subQuery = q.subQuery()
+              .select("booking.campingSiteId")
+              .from(Booking, "booking")
+              .where("booking.checkintDate BETWEEN :startDate AND :endDate", { startDate, endDate })
+              .andWhere("booking.checkoutDate BETWEEN :startDate AND :endDate", { startDate, endDate })
+              .groupBy("booking.campingSiteId")
+              .having("count(*) = 0")
+              .getQuery();
+            return "campingSite.id IN " + subQuery;
+          })
+          .orWhere(q => {
+            const subQuery = q.subQuery()
+              .select("booking.campingSiteId")
+              .from(Booking, "booking")
+              .getQuery();
+            return "campingSite.id not IN " + subQuery;
+          })
+      }))
       .andWhere("campingSite.capacity >= :guests", { guests })
-      .groupBy("campingSite.id")
       .getMany();
 
     return availableCampsites;
@@ -58,7 +76,7 @@ export class CampingSiteService extends CrudService<CampingSite> {
       .orderBy("averageRating", "DESC")
       .take(5)
       .getMany();
-      
+
     return getFiveBestCampsites;
   }
 

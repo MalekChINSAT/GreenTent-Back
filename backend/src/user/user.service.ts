@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { CrudService } from '../common/crud.service';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -24,6 +24,16 @@ export class UserService extends CrudService<User> {
         email: email
       }
     });
+  }
+
+  async findOne(id): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id }});
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    delete user.password; 
+    return user;
   }
 
   async getBookingsById(id: number): Promise<Booking[]> {
